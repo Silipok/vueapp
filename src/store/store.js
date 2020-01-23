@@ -31,6 +31,9 @@ export const store = new Vuex.Store({
         },
         get_time: state=>{
             return state.settingTime
+        },
+        get_lvl: state=>{
+            return state.level
         }
     },
     mutations: {
@@ -46,6 +49,9 @@ export const store = new Vuex.Store({
         },
         set_operations(state,payload){
             state.settingMathOp.forEach(el=>{if(el.name==payload)el.status!=el.status});
+        },
+        set_lvl(state,payload){
+            state.level=payload
         }
     }
 });

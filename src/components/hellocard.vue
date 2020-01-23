@@ -40,6 +40,7 @@
                     :max="10"
                     thumb-label="always"
                     :tick-labels="labelsLevel"
+                    @click="setLevel"
                 ></v-slider>
             </v-card-text>
             <v-card-text>
@@ -90,15 +91,15 @@
             }
         },
         methods: {
-            ...mapMutations(['set_time','set_operations']),
+            ...mapMutations(['set_time','set_operations','set_lvl']),
             logger: function(e){
                 window.console.log(e);
             },
             clickTime(){
                 this.set_time(this.time);
             },
-            changeOperations(){
-
+            setLevel(){
+                this.set_lvl(this.level)
             }
         },
         computed: {

@@ -38,7 +38,7 @@
                             autofocus
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="1" md="1" class=" justify-center text-center">
+                    <v-col cols="12" sm="1" md="1" class=" justify-center text-center" v-if="this.get_lvl>3">
                         <v-text-field readonly
                             solo
                             :value="op2"
@@ -46,7 +46,7 @@
                             dense
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="2" md="2" class=" justify-center text-center">
+                    <v-col cols="12" sm="2" md="2" class=" justify-center text-center" v-if="this.get_lvl>3">
                         <v-text-field
                             v-model="SECOND_NUMBER"
                             solo
@@ -56,7 +56,7 @@
                             ref="secondNumber"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="1" md="1" class=" justify-center text-center">
+                    <v-col cols="12" sm="1" md="1" class=" justify-center text-center" v-if="this.get_lvl>=7">
                         <v-text-field readonly
                             solo
                             :value="op3"
@@ -64,7 +64,7 @@
                             dense
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="2" md="2" class=" justify-center text-center">
+                    <v-col cols="12" sm="2" md="2" class=" justify-center text-center" v-if="this.get_lvl>=7">
                         <v-text-field
                             v-model="THIRD_NUMBER"
                             solo
@@ -134,27 +134,25 @@ export default {
             FIRST_NUMBER: 0,
             SECOND_NUMBER: 0,
             THIRD_NUMBER: 0,
+            op1: '',
+            op2: '',
+            op3: '',
             activeEl: 'firstNumber',
         }
     },
     mounted(){
         this.staticNumber=Math.floor(Math.random()*100);
+        this.op1 = this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value 
+        this.op2= this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value
+        this.op3=this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value
     },
     computed: {
-        ...mapGetters(['get_operations']),
-        op1(){
-            return this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value 
-        },
-        op2(){
-            return this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value
-        },
-        op3(){
-            return this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value
-        },
+        ...mapGetters(['get_operations','get_lvl']),
         totalNumber(){
             let total=0;
             total=this.getOpVal(this.op1,this.staticNumber);
-            total=this.getOpVal(this.op2,total);
+            if(this.get_lvl>3)total=this.getOpVal(this.op2,total);
+            if(this.get_lvl>=7)total=this.getOpVal(this.op3,total);
             return total
         }
     },
@@ -170,11 +168,11 @@ export default {
         setFocusRight: function(){
             switch(this.activeEl){
                 case ('firstNumber'):
-                    this.activeEl='secondNumber';
+                    if(this.get_lvl>3)this.activeEl='secondNumber';
                     this.$refs[this.activeEl].$el.children[0].children[0].children[0].children[0].focus();
                     break;
                 case ('secondNumber'):
-                    this.activeEl='thirdNumber';
+                    this.get_lvl>=7 ? this.activeEl='thirdNumber' : this.activeEl='firstNumber';
                     this.$refs[this.activeEl].$el.children[0].children[0].children[0].children[0].focus();
                     break;
                 case ('thirdNumber'):
@@ -188,7 +186,8 @@ export default {
         setFocusLeft: function(){
             switch(this.activeEl){
                 case ('firstNumber'):
-                    this.activeEl='thirdNumber';
+                    if(this.get_lvl>=7) this.activeEl='thirdNumber';
+                    if(this.get_lvl>3) this.activeEl='secondNumber';
                     this.$refs[this.activeEl].$el.children[0].children[0].children[0].children[0].focus();
                     break;
                 case ('secondNumber'):
@@ -254,10 +253,13 @@ export default {
         checkResult: function(){
             let res=0;
             res=this.getResUserOps(this.op1,this.staticNumber,this.FIRST_NUMBER);
-            res=this.getResUserOps(this.op2,res,this.SECOND_NUMBER);
-            res=this.getResUserOps(this.op3,res,this.THIRD_NUMBER);
+            if(this.get_lvl>3)res=this.getResUserOps(this.op2,res,this.SECOND_NUMBER);
+            if(this.get_lvl>=7)res=this.getResUserOps(this.op3,res,this.THIRD_NUMBER);
             window.console.log(`res=${res}; total=${this.totalNumber}; answ=${res==this.totalNumber}`);
             res==this.totalNumber ? this.true_answer() : this.wrong_answer();
+            this.op1 = this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value 
+            this.op2= this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value
+            this.op3=this.get_operations[Math.floor(Math.random()*this.get_operations.length)].value
             this.staticNumber=Math.floor(Math.random()*100);
         },
         clickNumberBtn: function(e){
