@@ -20,6 +20,9 @@ export const store = new Vuex.Store({
         }
     },
     getters: {
+        get_all_op: state=>{
+            return state.settingMathOp
+        },
         get_operations: state=>{
             return state.settingMathOp.filter(op=>op.status)
         },
@@ -40,6 +43,9 @@ export const store = new Vuex.Store({
         },
         set_time(state,payload){
             state.settingTime=payload
+        },
+        set_operations(state,payload){
+            state.settingMathOp.forEach(el=>{if(el.name==payload)el.status!=el.status});
         }
     }
 });

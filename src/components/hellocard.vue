@@ -44,25 +44,30 @@
             </v-card-text>
             <v-card-text>
                 <v-checkbox
-                    v-model="operations.sum"
+                    v-model="operations[0].status"
                     label="Суммирование"
+                    @click="set_operations('sum')"
                 ></v-checkbox>
                 <v-checkbox
-                    v-model="operations.sub"
+                    v-model="operations[3].status"
                     label="Вычитание"
+                    @click="set_operations('sub')"
                 >
                 </v-checkbox>
                 <v-checkbox
-                    v-model="operations.mul"
+                    v-model="operations[2].status"
                     label="Умножение"
+                    @click="set_operations('mul')"
                 ></v-checkbox>
                 <v-checkbox
-                    v-model="operations.div"
-                    label="Деление"            
+                    v-model="operations[1].status"
+                    label="Деление"      
+                    @click="set_operations('div')"      
                 ></v-checkbox>
                 <v-checkbox
-                    v-model="operations.sqr"
+                    v-model="operations[4].status"
                     label="Возведение в степень"
+                    @click="set_operations('sqr')"
                 ></v-checkbox>
             </v-card-text>
             <v-card-actions class=" justify-center">
@@ -82,26 +87,22 @@
                 level: 1,
                 labelsTime: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
                 labelsLevel: [1,2,3,4,5,6,7,8,9,10],
-                operations: {
-                    sum: true,
-                    div: false,
-                    mul: true,
-                    sub: true,
-                    sqr: true
-                }
             }
         },
         methods: {
-            ...mapMutations(['set_time']),
+            ...mapMutations(['set_time','set_operations']),
             logger: function(e){
                 window.console.log(e);
             },
             clickTime(){
                 this.set_time(this.time);
+            },
+            changeOperations(){
+
             }
         },
         computed: {
-            ...mapGetters({result: 'get_result'}),
+            ...mapGetters({result: 'get_result',operations: 'get_all_op'}),
             currency(){
                 return this.result.totalAnswer==0 ? 0 : 
                 Math.floor(this.result.rightAnswer*100/this.result.totalAnswer) 
