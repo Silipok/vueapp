@@ -47,28 +47,28 @@
                 <v-checkbox
                     v-model="operations[0].status"
                     label="Суммирование"
-                    @click="set_operations('sum')"
+                    @click="setOperations('sum')"
                 ></v-checkbox>
                 <v-checkbox
                     v-model="operations[3].status"
                     label="Вычитание"
-                    @click="set_operations('sub')"
+                    @click="setOperations('sub')"
                 >
                 </v-checkbox>
                 <v-checkbox
                     v-model="operations[2].status"
                     label="Умножение"
-                    @click="set_operations('mul')"
+                    @click="setOperations('mul')"
                 ></v-checkbox>
                 <v-checkbox
                     v-model="operations[1].status"
                     label="Деление"      
-                    @click="set_operations('div')"      
+                    @click="setOperations('div')"      
                 ></v-checkbox>
                 <v-checkbox
                     v-model="operations[4].status"
                     label="Возведение в степень"
-                    @click="set_operations('sqr')"
+                    @click="setOperations('sqr')"
                 ></v-checkbox>
             </v-card-text>
             <v-card-actions class=" justify-center">
@@ -91,19 +91,19 @@
             }
         },
         methods: {
-            ...mapMutations(['set_time','set_operations','set_lvl']),
+            ...mapMutations(['setTime','setOperations','setLvl']),
             logger: function(e){
                 window.console.log(e);
             },
             clickTime(){
-                this.set_time(this.time);
+                this.setTime(this.time);
             },
             setLevel(){
-                this.set_lvl(this.level)
+                this.setLvl(this.level)
             }
         },
         computed: {
-            ...mapGetters({result: 'get_result',operations: 'get_all_op'}),
+            ...mapGetters({result: 'getResult',operations: 'getAllOp'}),
             currency(){
                 return this.result.totalAnswer==0 ? 0 : 
                 Math.floor(this.result.rightAnswer*100/this.result.totalAnswer) 

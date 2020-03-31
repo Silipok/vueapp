@@ -19,7 +19,7 @@ export default {
     }
   },
   mounted(){
-      this.totalTime=this.get_time*60,
+      this.totalTime=this.getTime*60,
       this.timerRun()
   },
   updated(){
@@ -30,7 +30,7 @@ export default {
     }
   },
   computed: {
-      ...mapGetters(['get_time']),
+      ...mapGetters(['getTime']),
       time: function() {
       return this.minutes + " : " + this.seconds;
     },
@@ -47,30 +47,7 @@ export default {
     timerRun() {
       this.timerRunning = true;
       this.interval = setInterval(this.countdownTimer, 1000);
-     //window.console.log(this.totalTime);
     },
-    /*timerCountdown() {
-      window.console.log('Working');
-      this.timerRunning = true;
-      this.interval = setInterval(this.updateCurrentTime, 1000);
-      // Counts down from 60 seconds times 1000.
-      setInterval( () => {
-        this.timerMinutes--
-      }, 60 * 1000)
-      
-      // Check if seconds at double zero and then make it a 59 to countdown from.
-      // need another method of checking the number while in the loop and then adding a zero on the number under 10
-      if(this.timerSeconds === '00'){
-        this.timerSeconds = 59;
-        setInterval( () => {
-          this.timerSeconds--
-        }, 1000);
-      } else {
-        setInterval( () => {
-          this.timerSeconds--
-        }, 1000);
-      }
-    },*/
     countdownTimer() {
       if (this.timerRunning == true) {
           this.totalTime--;

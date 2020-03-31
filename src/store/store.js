@@ -20,37 +20,37 @@ export const store = new Vuex.Store({
         }
     },
     getters: {
-        get_all_op: state=>{
+        getAllOp: state=>{
             return state.settingMathOp
         },
-        get_operations: state=>{
+        getOperations: state=>{
             return state.settingMathOp.filter(op=>op.status)
         },
-        get_result: state=>{
+        getResult: state=>{
             return state.playerResult
         },
-        get_time: state=>{
+        getTime: state=>{
             return state.settingTime
         },
-        get_lvl: state=>{
+        getLvl: state=>{
             return state.level
         }
     },
     mutations: {
-        true_answer(state){
+        trueAnswer(state){
             state.playerResult.rightAnswer++;
             state.playerResult.totalAnswer++;
         },
-        wrong_answer(state){
+        wrongAnswer(state){
             state.playerResult.totalAnswer+=1;
         },
-        set_time(state,payload){
+        setTime(state,payload){
             state.settingTime=payload
         },
-        set_operations(state,payload){
+        setOperations(state,payload){
             state.settingMathOp.forEach(el=>{if(el.name==payload)el.status!=el.status});
         },
-        set_lvl(state,payload){
+        setLvl(state,payload){
             state.level=payload
         }
     }
